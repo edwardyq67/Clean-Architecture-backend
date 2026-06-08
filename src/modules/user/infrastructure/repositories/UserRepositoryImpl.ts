@@ -42,7 +42,7 @@ export class UserRepositoryImpl implements UserRepository {
         if (cached) {
             const cachedUser = this.parseCachedUser(cached);
             const raw = await this.userModel.findByPk(id.toString(), {
-                include: [{ model: RoleSequelizeModel, as: 'RoleSequelizeModels', through: { attributes: [] } }]
+                include: [{ model: RoleSequelizeModel, through: { attributes: [] } }]
             });
             if (!raw) {
                 await this.invalidateUserCache(id.toString(), cachedUser.email.toString());
@@ -94,37 +94,6 @@ export class UserRepositoryImpl implements UserRepository {
         const user = this.toDomain(raw.toJSON());
         await this.cacheUser(user);
         return user;
-    }
-
-    async findByRole(roleName: string): Promise<User[]> {
-        const raws = await this.userModel.findAll({
-            include: [{ model: RoleSequelizeModel, as: 'RoleSequelizeModels', where: { name: roleName } }]
-        });
-        return raws.map(raw => this.toDomain(raw.toJSON()));
-    }
-
-    async addRole(userId: UserId, roleId: string): Promise<void> {
-        const user = await this.userModel.findByPk(userId.toString());
-        const role = await RoleSequelizeModel.findByPk(roleId);
-        if (!user) {
-            throw new UserNotFoundError(`Usuario con ID ${userId.toString()} no encontrado`);
-        }
-        if (!role) {
-            throw new Error(`Rol con ID ${roleId} no encontrado`);
-        }
-        await (user as any).$add('Role', role);
-    }
-
-    async removeRole(userId: UserId, roleId: string): Promise<void> {
-        const user = await this.userModel.findByPk(userId.toString());
-        const role = await RoleSequelizeModel.findByPk(roleId);
-        if (!user) {
-            throw new UserNotFoundError(`Usuario con ID ${userId.toString()} no encontrado`);
-        }
-        if (!role) {
-            throw new Error(`Rol con ID ${roleId} no encontrado`);
-        }
-        await (user as any).$remove('Role', role);
     }
 
     async findAll(options: PaginationOptions = {}, filters?: { name?: string; role?: string }): Promise<PaginatedResult<User>> {
@@ -254,7 +223,7 @@ export class UserRepositoryImpl implements UserRepository {
             name: raw.name,
             email: raw.email,
             passwordHash: raw.password_hash,
-            roles: raw.RoleSequelizeModels ? raw.RoleSequelizeModels.map((role: any) => role.name) : [],
+            roles: raw.Roles ? raw.Roles.map((role: any) => role.name) : [],
             isActive: raw.is_active,
             createdAt: new Date(raw.created_at),
             updatedAt: new Date(raw.updated_at),
