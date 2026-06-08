@@ -7,6 +7,10 @@ const errorHandler = (
     res: Response,
     _next: NextFunction
 ) => {
+    // If error has an explicit HTTP status, use it
+    if (error && typeof error.status === 'number') {
+        return res.status(error.status).json({ message: error.message });
+    }
     // Error de validación de Sequelize
     if (error.name === 'SequelizeValidationError') {
         const errObj: { [key: string]: string } = {};
@@ -26,8 +30,11 @@ const errorHandler = (
     
     // Error de base de datos
     if (error.name === 'SequelizeDatabaseError') {
+        // Provide a clearer message for invalid query parameters
+        const detail = error.parent?.detail || error.message;
         return res.status(400).json({ 
-            message: error.message
+            message: 'Error en la consulta a la base de datos',
+            detail
         });
     }
     

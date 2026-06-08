@@ -1,14 +1,19 @@
+import './modules';
 import app from './app';
 import { initializeDatabase } from './config/database';
+import { initializeRedis } from './config/redis';
 import { env } from './config/env';
 
 const PORT = env.PORT || 8080;
 
 const main = async () => {
     try {
-        // Inicializar base de datos usando tu configuración
+        // Inicializar Redis y base de datos
+        await initializeRedis();
+        console.log('✅ Redis connected');
+
         await initializeDatabase();
-        console.log("✅ DB connected");
+        console.log('✅ DB connected');
         
         app.listen(PORT, () => {
             console.log(`🚀 Server running on port ${PORT}`);
