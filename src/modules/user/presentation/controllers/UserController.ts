@@ -55,7 +55,7 @@ export class UserController {
                 return;
             }
 
-            const cleanedRoleNames = roleNames as Array<'admin' | 'user' | 'moderator'>;
+            const cleanedRoleNames = roleNames as string[];
             const passwordHash = await bcrypt.hash(dto.password, 10);
             const user = User.create(dto.name, dto.email, passwordHash, cleanedRoleNames[0]);
             user.changeRoles(cleanedRoleNames);

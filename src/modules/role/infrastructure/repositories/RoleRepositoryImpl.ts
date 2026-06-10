@@ -72,7 +72,10 @@ export class RoleRepositoryImpl implements RoleRepository {
     private toDomain(raw: any): Role {
         return Role.reconstitute({
             id: raw.id,
-            name: raw.name
+            name: raw.name,
+            isActive: raw.is_active,
+            createdAt: new Date(raw.created_at),
+            updatedAt: new Date(raw.updated_at)
         });
     }
 }

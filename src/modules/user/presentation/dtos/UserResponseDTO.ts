@@ -2,7 +2,7 @@ export interface UserResponseDTO {
     id: string;
     name: string;
     email: string;
-    roles: ('admin' | 'user' | 'moderator')[];
+    roles: string[];
     isActive: boolean;
     createdAt: string;
     updatedAt: string;

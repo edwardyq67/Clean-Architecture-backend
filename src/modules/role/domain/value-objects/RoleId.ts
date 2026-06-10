@@ -1,11 +1,6 @@
-import { Identifier } from '@/shared/domain/Identifier';
-import { v4 as uuidv4 } from 'uuid';
+import { EntityId } from '@/shared/domain/EntityId';
 
-export class RoleId extends Identifier<string> {
-    constructor(id?: string) {
-        super(id || uuidv4());
-    }
-
+export class RoleId extends EntityId {
     static create(): RoleId {
         return new RoleId();
     }

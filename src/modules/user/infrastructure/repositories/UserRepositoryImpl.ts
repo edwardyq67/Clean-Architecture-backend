@@ -218,12 +218,13 @@ export class UserRepositoryImpl implements UserRepository {
     }
 
     private toDomain(raw: any): User {
+        const roleRows = raw.RoleSequelizeModels || raw.Roles || [];
         return User.reconstitute({
             id: raw.id,
             name: raw.name,
             email: raw.email,
             passwordHash: raw.password_hash,
-            roles: raw.Roles ? raw.Roles.map((role: any) => role.name) : [],
+            roles: Array.isArray(roleRows) ? roleRows.map((role: any) => role.name) : [],
             isActive: raw.is_active,
             createdAt: new Date(raw.created_at),
             updatedAt: new Date(raw.updated_at),

@@ -26,7 +26,7 @@ app.use(corsMiddleware);
 app.use(rateLimit({
     windowMs: 60 * 1000,
     max: 100,
-    message: { error: 'Demasiadas peticiones, intenta de nuevo más tarde' }
+    message: { status: 429, message: 'Demasiadas peticiones, intenta de nuevo más tarde' }
 }));
 
 // Rutas (prefijo global API)

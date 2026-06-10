@@ -5,7 +5,10 @@ export class RoleMapper {
     static toResponse(role: Role): RoleResponseDTO {
         return {
             id: role.id.toString(),
-            name: role.name
+            name: role.name,
+            isActive: role.isActive,
+            createdAt: role.createdAt.toISOString(),
+            updatedAt: role.updatedAt.toISOString()
         };
     }
 }

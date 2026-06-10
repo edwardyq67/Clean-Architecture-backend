@@ -1,5 +1,6 @@
 export interface UpdateUserRequestDTO {
     name?: string;
     email?: string;
-    role?: 'admin' | 'user' | 'moderator';
+    password?: string;
+    role?: string;
 }

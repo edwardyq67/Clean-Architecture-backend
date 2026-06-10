@@ -77,7 +77,8 @@ export class RoleController {
                 return;
             }
 
-            const role = Role.reconstitute({ id, name: dto.name });
+            const role = await this.roleService.findById(new RoleId(id));
+            role.changeName(dto.name);
             await this.roleService.patch(role);
             res.status(200).json(RoleMapper.toResponse(role));
         } catch (error: any) {

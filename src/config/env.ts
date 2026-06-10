@@ -11,7 +11,11 @@ const requiredEnvs = [
     'DB_NAME',
     'JWT_SECRET',
     'JWT_REFRESH_SECRET',
-    'FRONTEND_URL'
+    'FRONTEND_URL',
+    'AWS_BUCKET_NAME',
+    'AWS_REGION',
+    'AWS_ACCESS_KEY_ID',
+    'AWS_SECRET_ACCESS_KEY'
 ] as const;
 
 for (const key of requiredEnvs) {
@@ -46,4 +50,9 @@ export const env = {
     JWT_REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
 
     FRONTEND_URL: process.env.FRONTEND_URL!,
+
+    AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME!,
+    AWS_REGION: process.env.AWS_REGION!,
+    AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID!,
+    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY!,
 };
